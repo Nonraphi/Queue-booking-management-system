@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Branch {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  taskTypes TaskType[]
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model TaskGroup {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique 
+  taskNames TaskName[] 
+  taskTypes TaskType[] 
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model TaskName {
+  id          Int        @id @default(autoincrement())
+  name        String
+  taskGroupId Int        
+  taskGroup   TaskGroup  @relation(fields: [taskGroupId], references: [id])
+  taskTypes   TaskType[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model TaskType {
+  id          Int       @id @default(autoincrement())
+
+  branchId    Int
+  branch      Branch    @relation(fields: [branchId], references: [id])
+  taskGroupId Int
+  taskGroup   TaskGroup @relation(fields: [taskGroupId], references: [id])
+  taskNameId  Int
+  taskName    TaskName  @relation(fields: [taskNameId], references: [id])
+  startDate   DateTime  @db.Date
+  recommendation String?  @db.Text
+  timeSlots   TimeSlot[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TimeSlot {
+  id          Int       @id @default(autoincrement())
+
+  taskTypeId  Int
+  taskType    TaskType  @relation(fields: [taskTypeId], references: [id], onDelete: Cascade)
+  dayOfWeek   DayOfWeek
+  startTime   String    
+  endTime     String
+  capacity    Int
+
+  @@index([taskTypeId, dayOfWeek])
+}
+
+enum DayOfWeek {
+  SUN
+  MON
+  TUE
+  WED
+  THU
+  FRI
+  SAT
+}
