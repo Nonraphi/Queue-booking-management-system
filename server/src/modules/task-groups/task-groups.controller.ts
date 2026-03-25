@@ -1,10 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TaskGroupsService } from './task-groups.service';
 import { CreateTaskGroupDto } from './dto/create-task-group.dto';
 import { UpdateTaskGroupDto } from './dto/update-task-group.dto';
-import { PrismaService } from '../../prisma/prisma.service';
 
-@Controller('task-groups')
+@Controller('api/task-groups')
 export class TaskGroupsController {
   constructor(private readonly taskGroupsService: TaskGroupsService) {}
 
@@ -24,7 +31,10 @@ export class TaskGroupsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskGroupDto: UpdateTaskGroupDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTaskGroupDto: UpdateTaskGroupDto,
+  ) {
     return this.taskGroupsService.update(+id, updateTaskGroupDto);
   }
 

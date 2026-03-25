@@ -1,1 +1,4 @@
-export class CreateTaskNameDto {}
+export class CreateTaskNameDto {
+  name: string;
+  taskGroupId: number;
+}

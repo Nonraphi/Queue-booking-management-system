@@ -1,1 +1,3 @@
-export class CreateBranchDto {}
+export class CreateBranchDto {
+  name: string;
+}

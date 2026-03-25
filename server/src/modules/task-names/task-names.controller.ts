@@ -1,12 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { TaskNamesService } from './task-names.service';
 import { CreateTaskNameDto } from './dto/create-task-name.dto';
 import { UpdateTaskNameDto } from './dto/update-task-name.dto';
 import { PrismaService } from '../../prisma/prisma.service';
 
-@Controller('task-names')
+@Controller('api/task-names')
 export class TaskNamesController {
-  constructor(private readonly taskNamesService: TaskNamesService, private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly taskNamesService: TaskNamesService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   @Post()
   create(@Body() createTaskNameDto: CreateTaskNameDto) {
@@ -14,7 +26,7 @@ export class TaskNamesController {
   }
 
   @Get()
-  findAll(@Query('groupId') groupId: number) {
+  findAll(@Query('groupId') groupId?: string) {
     return this.taskNamesService.findAll(groupId);
   }
 
@@ -24,7 +36,10 @@ export class TaskNamesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskNameDto: UpdateTaskNameDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTaskNameDto: UpdateTaskNameDto,
+  ) {
     return this.taskNamesService.update(+id, updateTaskNameDto);
   }
 
