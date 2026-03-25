@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# Queue Booking Management System (Client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend สำหรับระบบจัดการการจองคิว พัฒนาด้วย React + TypeScript + Vite และใช้ Tailwind CSS v4
 
-Currently, two official plugins are available:
+## เทคโนโลยีหลัก
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- Axios
+- React Hook Form + Zod
 
-## React Compiler
+## ความต้องการก่อนเริ่ม
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 20+ (แนะนำ LTS)
+- npm 10+
+- ฝั่ง Server ต้องรันอยู่ที่ `http://localhost:3001`
 
-## Expanding the ESLint configuration
+## เริ่มต้นใช้งาน
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. ติดตั้ง dependencies
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. รันในโหมดพัฒนา
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+3. เปิดหน้าเว็บ
+
+```text
+http://localhost:5173
+```
+
+## คำสั่งสำคัญ
+
+```bash
+# รัน dev server
+npm run dev
+
+# ตรวจ lint
+npm run lint
+
+# build production
+npm run build
+
+# preview ไฟล์ build
+npm run preview
+```
+
+## การเชื่อมต่อ API
+
+ปัจจุบัน client ชี้ไปที่ server แบบค่าคงที่
+
+- ไฟล์: `src/services/api.ts`
+- baseURL: `http://localhost:3001`
+
+ถ้าต้องการเปลี่ยนปลายทาง API ให้แก้ค่าในไฟล์ดังกล่าว
+
+## โครงสร้างหลักของโปรเจกต์
+
+```text
+src/
+  components/                 # UI component ที่ใช้ซ้ำ
+  features/
+    task-types/               # หน้าจัดการประเภทงาน
+      components/             # ส่วนย่อยของหน้า task-types
+  layouts/                    # โครง layout หลักของระบบ
+  services/
+    api.ts                    # รวม API call ของระบบ
+  App.tsx                     # Root component
+  main.tsx                    # Entry point
+```
+
+## ฟีเจอร์ที่มีในปัจจุบัน
+
+- แสดงรายการประเภทงานที่จองผ่านเว็บไซต์
+- ค้นหา/กรองข้อมูล
+- เพิ่มประเภทงานพร้อมช่วงเวลา
+- แก้ไขข้อมูลประเภทงาน
+- ลบประเภทงาน
+
+## หมายเหตุ
+
+- หากเรียก API ไม่ได้ ให้ตรวจว่า server รันอยู่และพอร์ตตรงกับ `baseURL`
+- หากมีปัญหา CORS ให้ตรวจการตั้งค่าในฝั่ง server (`src/main.ts`)

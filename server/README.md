@@ -1,98 +1,171 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Queue Booking Management System (Server)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend API สำหรับระบบจัดการการจองคิว พัฒนาด้วย NestJS + Prisma + PostgreSQL
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## เทคโนโลยีหลัก
 
-## Description
+- NestJS 11
+- Prisma 7 (Prisma Client + Prisma Adapter PG)
+- PostgreSQL
+- TypeScript
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## ความต้องการก่อนเริ่ม
 
-## Project setup
+- Node.js 20+ (แนะนำ LTS)
+- npm 10+
+- PostgreSQL ที่พร้อมใช้งาน
 
-```bash
-$ npm install
+## การตั้งค่า Environment
+
+สร้างไฟล์ `.env` ในโฟลเดอร์ `server` แล้วกำหนดค่าดังนี้
+
+```env
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME?schema=public"
+PORT=3001
 ```
 
-## Compile and run the project
+หมายเหตุ
+
+- `DATABASE_URL` จำเป็น ถ้าไม่ตั้งค่าแอปจะไม่สามารถเริ่มทำงานได้
+- ค่า `PORT` ไม่ใส่ก็ได้ ระบบจะใช้ `3001` เป็นค่าเริ่มต้น
+
+## เริ่มต้นใช้งาน
+
+1. ติดตั้ง dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+2. สร้าง Prisma Client
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npx prisma generate
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+3. รัน migration ลงฐานข้อมูล (ครั้งแรก)
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npx prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. รันเซิร์ฟเวอร์
 
-## Resources
+```bash
+npm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## คำสั่งสำคัญ
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# development (watch)
+npm run start:dev
 
-## Support
+# run ปกติ
+npm run start
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# build
+npm run build
 
-## Stay in touch
+# run production
+npm run start:prod
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# lint
+npm run lint
 
-## License
+# test
+npm run test
+npm run test:e2e
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## API Base URL
+
+```text
+http://localhost:3001
+```
+
+## โครงสร้างโมดูลหลัก
+
+- `branches` จัดการข้อมูลสาขา
+- `task-groups` จัดการกลุ่มงาน
+- `task-names` จัดการชื่องาน (ผูกกับกลุ่มงาน)
+- `task-types` จัดการประเภทงานที่เปิดจองผ่านเว็บไซต์
+
+## Endpoint หลัก
+
+### Branches
+
+- `GET /api/branches`
+- `POST /api/branches`
+- `GET /api/branches/:id`
+- `PATCH /api/branches/:id`
+- `DELETE /api/branches/:id`
+
+### Task Groups
+
+- `GET /api/task-groups`
+- `POST /api/task-groups`
+- `GET /api/task-groups/:id`
+- `PATCH /api/task-groups/:id`
+- `DELETE /api/task-groups/:id`
+
+### Task Names
+
+- `GET /api/task-names`
+- `GET /api/task-names?groupId=<id>`
+- `POST /api/task-names`
+- `GET /api/task-names/:id`
+- `PATCH /api/task-names/:id`
+- `DELETE /api/task-names/:id`
+
+### Task Types
+
+- `GET /api/task-types`
+- `POST /api/task-types`
+- `GET /api/task-types/:id`
+- `PATCH /api/task-types/:id`
+- `DELETE /api/task-types/:id`
+
+## Validation ที่สำคัญในระบบ
+
+- ตรวจชื่อซ้ำของ Branch และ TaskGroup
+- ตรวจว่า TaskName อยู่ใน TaskGroup เดียวกับที่เลือก
+- ตรวจวันเวลาใน TimeSlot
+  - รูปแบบเวลาถูกต้อง
+  - เวลาเริ่ม < เวลาสิ้นสุด
+  - ไม่มีช่วงเวลาทับซ้อนในวันเดียวกัน
+
+## CORS
+
+ระบบเปิด CORS ไว้แล้วใน `src/main.ts`
+
+- origin: `*`
+- methods: `GET,HEAD,PUT,PATCH,POST,DELETE`
+
+## โครงสร้างข้อมูลหลัก (Prisma)
+
+- `Branch`
+- `TaskGroup`
+- `TaskName`
+- `TaskType`
+- `TimeSlot`
+- `DayOfWeek` enum (`SUN` ถึง `SAT`)
+
+## Troubleshooting
+
+### 1) รันแล้วขึ้น `DATABASE_URL is not defined`
+
+- ตรวจว่าไฟล์ `.env` อยู่ในโฟลเดอร์ `server`
+- ตรวจชื่อ key ต้องเป็น `DATABASE_URL` ตรงตัว
+
+### 2) พอร์ตชน (`EADDRINUSE`)
+
+- มี process อื่นใช้พอร์ตอยู่ ให้ปิด process เดิม
+- หรือเปลี่ยน `PORT` ใน `.env`
+
+### 3) Prisma schema เปลี่ยนแต่ query ยังไม่ตรง
+
+```bash
+npx prisma generate
+npx prisma migrate dev
+```
